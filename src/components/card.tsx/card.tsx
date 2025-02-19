@@ -14,8 +14,48 @@ import { useState } from "react";
 //call function - call set state
 //pass response from fetcher to setState
 
-export default function Card() {
+//city is being passed in as a prop
+// user input selects city (paris, london, newyork)
+// scan over the cities array to find the city that matches the user input
+// takes the long/lat from our Const Cities []
+// replaces the api fetch url with the correct long/lat
+// fetches the data
+
+//call the array cities
+//find the city that matches the city.name to the input option
+
+
+// return (
+//   <div>
+//     <select onChange={(e) => {
+//       const selectedCity = cities.find(city => city.name === e.target.value);
+//       if (selectedCity) {
+//         onSelectCity(selectedCity.lat, selectedCity.lon); 
+//       }
+//     }}>
+
+// PLAN
+// get the lat and long from the cities array that we selected.
+// find the name in the cities array with the name of the city user selects
+// return the whole object that matches the name in the array (includes the name, long, lat)
+// store this new object as the currentCity
+// Make 2 variables - long & lat -
+// currentCity.lat & CurrentCity.lon 
+// replace the long and lat in the fetch url with the new long and lat
+// fetch the data
+
+
+
+
+
+export default function Card({city}) {
   const [temp, setTemp] = useState(null);
+
+  const cities = [
+    { name: 'Paris', lat: 48.8566, lon: 2.3522 },
+    { name: 'New York', lat: 40.7128, lon: -74.0060 },
+    { name: 'London', lat: 51.5074, lon: -0.1278 },
+  ];
 
   async function fetcher() {
     try {
