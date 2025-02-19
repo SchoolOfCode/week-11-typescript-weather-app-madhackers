@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 
 //make api call...show on screen
 //how to trigger API useCallback, load /btn
@@ -34,6 +34,17 @@ import { useState } from "react";
 //       }
 //     }}>
 
+
+
+
+
+
+
+
+
+
+
+
 // PLAN
 // get the lat and long from the cities array that we selected.
 // find the name in the cities array with the name of the city user selects
@@ -42,28 +53,34 @@ import { useState } from "react";
 // Make 2 variables - long & lat -
 // currentCity.lat & CurrentCity.lon 
 // replace the long and lat in the fetch url with the new long and lat
-// fetch the data
+// fetch the data {city}
 
+import { useState, ChangeEvent } from 'react';
 
+interface City {
+  name: string;
+  lat: number;
+  lon: number;
+}
 
-
-
-export default function Card({city}) {
+export default function Card() {
   const [temp, setTemp] = useState(null);
+  // Need state to use later when resetting.
+  const [currentCity, setCurrentCity] = useState<City | null>(null); // State to store the current city
 
-  const cities = [
+  const cities: City[] = [
     { name: 'Paris', lat: 48.8566, lon: 2.3522 },
-    { name: 'New York', lat: 40.7128, lon: -74.0060 },
+    { name: 'New York', lat: 40.7128, lon: -74.006 },
     { name: 'London', lat: 51.5074, lon: -0.1278 },
   ];
 
-  async function fetcher() {
+  async function fetcher(lat: number, lon: number) {
     try {
       const response = await fetch(
-        "https://api.open-meteo.com/v1/forecast?latitude=48.8534&longitude=2.3488&current=temperature_2m&daily=temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=1"
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m&daily=temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=1`
       );
       if (!response.ok) {
-        throw new Error("Url issue");
+        throw new Error(`Url issue:`);
       }
 
       const data = await response.json();
@@ -74,12 +91,63 @@ export default function Card({city}) {
       console.error(`${err}: Error getting data from URL`);
     }
   }
+  // Handler function for when the user selects a city
+  const handleCityChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const selectedCity = cities.find(
+      (city) => city.name === e.target.value
+    );
+    if (selectedCity) {
+      setCurrentCity(selectedCity); // Set the current city state
+      fetcher(selectedCity.lat, selectedCity.lon); // Fetch weather data for the selected city
+    }
+  };
 
   return (
     <article>
-      <button onClick={fetcher}>Load</button>
+      {/* Dropdown to select a city */}
+      <select onChange={handleCityChange}>
+        <option value="">Select a city</option>
+        {cities.map((city) => (
+          <option key={city.name} value={city.name}>
+            {city.name}
+          </option>
+        ))}
+      </select>
       <h2>Card Title</h2>
-      <p>{temp}</p>
+      {/* Display the fetched temperature */}
+      <p>{temp}°C</p>
     </article>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // return (
+  //   <article>
+  //     <button onClick={fetcher}>Load</button>
+  //     <h2>Card Title</h2>
+  //     <p>{temp}</p>
+  //   </article>
+  // );
+
