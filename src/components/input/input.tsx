@@ -1,11 +1,11 @@
 // options needs to be passed in params
 
-export default function Input() {
+export default function Input({ city, setCity }) {
   return (
-    <select>
-      <option value="option1">Option 1</option>{" "}
-      <option value="option2">Option 2</option>{" "}
-      <option value="option3">Option 3</option>{" "}
+    <select value={city} onChange={(e) => setCity(e.target.value)}>
+      <option value="Paris">Paris</option>{" "}
+      <option value="London">London</option>{" "}
+      <option value="New York">New York</option>{" "}
     </select>
   );
 }
