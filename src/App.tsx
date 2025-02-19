@@ -13,7 +13,7 @@ function App() {
       {/* <h1>{weatherData}</h1> */}
       <Title />
       <Input setCity={setCity} city={city} />
-      <Card />
+      <Card city={city}/>
     </main>
   );
 }
