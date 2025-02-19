@@ -113,7 +113,7 @@ export default function Card() {
           </option>
         ))}
       </select>
-      <h2>Card Title</h2>
+      <h2>Temperature Right Now</h2>
       {/* Display the fetched temperature */}
       <p>{temp}°C</p>
     </article>
